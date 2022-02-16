@@ -33,6 +33,18 @@ class Game include GameBoard
   
  #Draws a game board
   def initialize
+    @@hash = {
+      a1: "-",
+      a2: "-",
+      a3: "-",
+      b1: "-",
+      b2: "-",
+      b3: "-",
+      c1: "-",
+      c2: "-",
+      c3: "-",
+    }
+    @@winner = 0
   draw_game_board()
   start_game()
 end
@@ -40,15 +52,16 @@ end
  #Stores user symbol and starts the game
   def start_game
   puts "Do you want to be X or O?"
-  @userSymbol = gets.chomp
-  if @userSymbol != 'X' && userSymbol != 'O'
-    while @userSymbol != 'X' && userSymbol != 'O' 
+  @userSymbol = gets.chomp.upcase
+  if @userSymbol != 'X' && @userSymbol != 'O'
+    while @userSymbol != 'X' && @userSymbol != 'O' 
     puts "Do you want to be X or O?"
     @userSymbol = gets.chomp
-    if if @userSymbol == 'X' && userSymbol == 'O'
+     if @userSymbol == 'X' && @userSymbol == 'O'
       break
     end
   end 
+end
   puts "You selected #{@userSymbol}"
   tic_tac_toe()
 end
@@ -64,17 +77,15 @@ end
   while turn < 10
     puts "Make your move [A1-C3]"
     userMove = gets.chomp.downcase.to_sym
-    if userMove != :a1 && userMove == :b1 && userMove == :c1 && userMove == :a2 && userMove == :b2 && userMove == :c2 && userMove == :a3 && userMove == :b3 && userMove == :c3
-      while userMove == :a1 && userMove == :b1 && userMove == :c1 && userMove == :a2 && userMove == :b2 && userMove == :c2 && userMove == :a3 && userMove == :b3 && userMove == :c3
+    if userMove !=:a1 && userMove !=:b1 && userMove !=:c1 && userMove !=:a2 && userMove !=:b2 && userMove !=:c2 && userMove !=:a3 && userMove !=:b3 && userMove !=:c3
+      until userMove == :a1 || userMove == :b1 || userMove == :c1 || userMove == :a2 || userMove == :b2 || userMove == :c2 || userMove == :a3 || userMove == :b3 || userMove == :c3
         puts "Please make another selection [A1-C3]"
         userMove = gets.chomp.downcase.to_sym
-        p userMove
-        if userMove == :a1 || userMove == :b1 || userMove == :c1 || userMove == :a2 || userMove == :b2 || userMove == :c2 || userMove == :a3 || userMove == :b3 || userMove == :c3
-          break
-        end
+        
+      
       end
     end
-    userMove = userMove.to_sym
+  
 
     ##Avoids user from selecting a used grid
     if @@hash[userMove] == @pcSymbol || @@hash[userMove] == @userSymbol
@@ -89,14 +100,13 @@ end
     @@hash[userMove] = @userSymbol
     pcTurn()
     draw_game_board()
-    print(win_round())
     if @@winner == 1
       puts "You win!!!"
       break
     elsif @@winner == 2
       puts "PC wins!!!"
       break
-    elsif turn == 8
+    elsif turn == 9
       puts "It's a draw!!!"
       break
     else
@@ -158,3 +168,13 @@ end
 end end
 
 new_game = Game.new
+
+play_again = ''
+until play_again == 'n'
+puts "Play again? Y/N?"
+play_again = gets.chomp
+
+if play_again == "y" 
+  new_game = Game.new
+end
+end
