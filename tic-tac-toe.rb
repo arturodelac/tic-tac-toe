@@ -100,6 +100,7 @@ end
     @@hash[userMove] = @userSymbol
     pcTurn()
     draw_game_board()
+    win_round()
     if @@winner == 1
       puts "You win!!!"
       break
